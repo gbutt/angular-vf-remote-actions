@@ -1,0 +1,29 @@
+<!doctype html>
+<html ng-app="example">
+
+<head>
+  <title>Angular - Visualforce Remote Actions - Example</title>
+  <script type="text/javascript" src="node_modules/angular/angular.js"></script>
+  <script type="text/javascript" src="dist/vfrAction.provider.js"></script>
+  <script type="text/javascript" src="example/app.js"></script>
+  <!-- mock out Visualforce Remoting API for local demonstration -->
+  <script type="text/javascript" src="dist/vfrMock.js"></script>
+  <script type="text/javascript" src="example/mockedVfrActions.js"></script>
+</head>
+
+<body>
+  <h1>Angular - Visualforce Remote Actions - Examples</h1>
+  <div ng-controller="ngExampleController">
+    <p>
+      <button ng-click="myAction()">Simple Action</button>
+      <button ng-click="myActionWithArgs('arg1', 'arg2')">Simple Action with Parameters</button>
+      <button ng-click="anotherControllerAction()">Defined Action</button>
+      <button ng-click="longRunningAction()">Defined Action with Configuration</button>
+    </p>
+    <pre>{{ result | json }}</pre>
+  </div>
+  <script>
+  </script>
+</body>
+
+</html>

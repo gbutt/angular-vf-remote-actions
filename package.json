@@ -1,0 +1,48 @@
+{
+  "name": "angular-vf-remote-actions",
+  "version": "1.0.0",
+  "description": "An angular 1.x library for Salesforce that makes it easy to call remote actions on a visualforce page. This should be used only if you host your angular app in a visualforce page.",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf coverage",
+    "test": "karma start --single-run",
+    "tdd": "karma start",
+    "start": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gbutt/angular-vf-remote-actions.git"
+  },
+  "keywords": [
+    "angular",
+    "salesforce",
+    "visualforce",
+    "RemoteAction"
+  ],
+  "author": "Greg Butt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gbutt/angular-vf-remote-actions/issues"
+  },
+  "homepage": "https://github.com/gbutt/angular-vf-remote-actions#readme",
+  "dependencies": {
+    "angular": ">=1.2.15 <1.6"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.5.8",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-detect-browsers": "^2.1.0",
+    "karma-edge-launcher": "^0.1.1",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-istanbul": "^0.0.2",
+    "karma-jasmine": "^1.0.2",
+    "karma-opera-launcher": "^1.0.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-safari-launcher": "^1.0.0",
+    "lite-server": "^2.2.2"
+  }
+}
