@@ -2,12 +2,13 @@
   "name": "angular-vf-remote-actions",
   "version": "1.0.1",
   "description": "An angular 1.x library for Salesforce that makes it easy to call remote actions on a visualforce page. This should be used only if you host your angular app in a visualforce page.",
-  "main": "index.js",
+  "main": "dist/VfrActionFactory.ts",
   "scripts": {
     "clean": "rm -rf coverage",
     "test": "karma start --single-run",
     "tdd": "karma start",
-    "start": "lite-server"
+    "start": "lite-server",
+    "build": "rm -rf dist && webpack && cp src/vfrMock.js dist/vfrMock.js && cp src/angular2/VfrActionFactoryProvider.d.ts dist/VfrActionFactoryProvider.d.ts"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "jasmine-core": "^2.5.2",
     "karma": "^1.3.0",
     "karma-chrome-launcher": "^2.0.0",
+    "karma-commonjs": "^1.0.0",
     "karma-coverage": "^1.1.1",
     "karma-detect-browsers": "^2.1.0",
     "karma-edge-launcher": "^0.1.1",
@@ -43,6 +45,7 @@
     "karma-opera-launcher": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-safari-launcher": "^1.0.0",
-    "lite-server": "^2.2.2"
+    "lite-server": "^2.2.2",
+    "webpack": "^1.13.3"
   }
 }

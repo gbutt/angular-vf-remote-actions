@@ -1,41 +1,39 @@
-(function () {
-  'use strict';
-
   angular.module('vfrAction', []).provider('VfrAction', VfrActionProvider);
 
   function VfrActionProvider() {
 
-    var provider = this;
-    provider.definedActions = {};
+    var config = {};
+    config.actions = {};
 
-    this.actions = function (definedActions) {
-      provider.definedActions = definedActions;
+    this.actions = function (actions) {
+      config.actions = actions;
     };
 
-    this.defaultNamespace = function (namespace) {
-      provider.namespace = namespace;
+    this.defaultNamespace = function (defaultNamespace) {
+      config.defaultNamespace = defaultNamespace;
     }
 
-    this.defaultController = function (controller) {
-      provider.controller = controller;
+    this.defaultController = function (defaultController) {
+      config.defaultController = defaultController;
     }
 
-    this.defaultConfiguration = function (configuration) {
-      provider.configuration = configuration;
+    this.defaultConfiguration = function (defaultConfiguration) {
+      config.defaultConfiguration = defaultConfiguration;
     }
 
     this.$get = ['$q', '$log', function ($q, $log) {
+      return new VfrActionFactory(config).build;
 
-      function VfrAction(actionName, configuration) {
-        var self = this;
-        this.buildActionConfig(actionName, configuration);
+      function VfrAction(action, configuration) {
+        this.action = action;
+        this.configuration = configuration;
 
         this.invoke = function () {
-          var deferred = $q.defer();
           var parameters = Array.prototype.slice.apply(arguments);
-          $log.debug('invoking action: ' + self.action + (parameters.length ? ' with parameters: ' + JSON.stringify(parameters) : '') + (self.configuration ? ' with configuration: ' + JSON.stringify(self.configuration) : ''));
+          var deferred = $q.defer();
+          $log.debug('invoking action: ' + this.action + (parameters.length ? ' with parameters: ' + JSON.stringify(parameters) : '') + (this.configuration ? ' with configuration: ' + JSON.stringify(this.configuration) : ''));
           var args = parameters;
-          args.unshift(self.action);
+          args.unshift(this.action);
           args.push(function (result, event) {
             $log.debug(result);
             if (event.status) {
@@ -44,44 +42,42 @@
               deferred.reject(event);
             }
           });
-          if (self.configuration) {
-            args.push(self.configuration);
+          if (this.configuration) {
+            args.push(this.configuration);
           }
-          var vfrManager = Visualforce.remoting.Manager;
+          var vfrManager = window.Visualforce.remoting.Manager;
           vfrManager.invokeAction.apply(vfrManager, args);
           return deferred.promise;
-        };
+        }
       }
 
-      VfrAction.prototype.buildActionConfig = function (actionName, configurationOpts) {
-        var action, configuration;
-        var actionConfig = provider.definedActions[actionName] || {};
-        if (actionConfig.actionName) {
-          action = actionConfig.actionName;
-        } else {
-          action = actionName;
-        }
+      function VfrActionFactory(config) {
 
-        // build action
-        var nameParts = action.split('.');
-        if (!!provider.controller && nameParts.length < 2) {
-          nameParts.unshift(provider.controller);
-        }
-        if (!!provider.namespace && nameParts.length < 3) {
-          nameParts.unshift(provider.namespace);
-        }
-        action = nameParts.join('.');
+        this.build = function (actionName, configurationOpts) {
+          var action, configuration;
+          var actionConfig = config.actions[actionName] || {};
+          if (actionConfig.actionName) {
+            action = actionConfig.actionName;
+          } else {
+            action = actionName;
+          }
 
-        // build configuration
-        if (provider.configuration || actionConfig.configuration || configurationOpts) {
-          configuration = angular.extend({}, provider.configuration, actionConfig.configuration, configurationOpts);
+          // build action
+          var nameParts = action.split('.');
+          if (!!config.defaultController && nameParts.length < 2) {
+            nameParts.unshift(config.defaultController);
+          }
+          if (!!config.defaultNamespace && nameParts.length < 3) {
+            nameParts.unshift(config.defaultNamespace);
+          }
+          action = nameParts.join('.');
+          // build configuration
+          if (config.defaultConfiguration || actionConfig.configuration || configurationOpts) {
+            configuration = Object.assign({}, config.defaultConfiguration, actionConfig.configuration, configurationOpts);
+          }
+
+          return new VfrAction(action, configuration);
         }
-
-        this.action = action;
-        this.configuration = configuration;
-      };
-
-      return VfrAction;
+      }
     }];
   }
-})();
