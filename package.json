@@ -1,6 +1,6 @@
 {
   "name": "angular-vf-remote-actions",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "An angular 1.x library for Salesforce that makes it easy to call remote actions on a visualforce page. This should be used only if you host your angular app in a visualforce page.",
   "main": "dist/VfrActionFactory.ts",
   "scripts": {
