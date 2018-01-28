@@ -5,5 +5,16 @@
 node_modules
 npm-debug.log
 
+.vscode/
+
 # app
 coverage
+
+index.js
+src/*.js
+!src/angular1
+*.js.map
+*.metadata.json
+*.d.ts
+
+*.tgz

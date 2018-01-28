@@ -1,9 +1,13 @@
-import { VfrActionConfig, VfrActionCallback } from './VfrActionFactory';
+import { VfrActionConfig, VfrActionCallback } from './VfrAction.interfaces';
 
-export interface VfrMockConfig {
+export interface InvokeActionHandler{
+  (parameters: VfrMockActionArguments): void;
+}
+
+export class VfrMockConfig {
   lotsOfErrors?: boolean;
   latencyInMillis?: number;
-  invokeActionHandler(parameters: VfrMockActionArguments);
+  invokeActionHandler: InvokeActionHandler;
 }
 
 export class VfrMockActionArguments {
@@ -55,7 +59,7 @@ export class VfrMock {
     (<any>window).Visualforce = {
       remoting: {
         Manager: {
-          invokeAction: function(){
+          invokeAction(){
             var parameters = self.normalizeArguments(arguments);
             self.invokeActionWithTimeout(parameters);
           }

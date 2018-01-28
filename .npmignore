@@ -1,0 +1,26 @@
+# OSX
+.DS_Store
+
+# node
+node_modules
+npm-debug.log
+
+.vscode/
+
+# app
+coverage
+
+index.ts
+*.js
+!src/*.js
+src/*.ts
+!src/*.d.ts
+
+
+*.tgz
+
+*.html
+tsconfig.json
+yarn.lock
+.npmignore
+!index.js
